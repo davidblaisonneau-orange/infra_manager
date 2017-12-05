@@ -1,0 +1,66 @@
+---
+##
+# Recover SSH key
+##
+
+- name: get ssh key
+  copy:
+    dest: "{{ hostvars[inventory_hostname].ansible_env.HOME }}/.ssh/{{ item }}"
+    src: "{{ xci_root }}/{{ idf.xci.pod_name }}/etc/{{item}}"
+    owner: "{{ hostvars[inventory_hostname].ansible_env.USER }}"
+    group: "{{ hostvars[inventory_hostname].ansible_env.USER }}"
+    mode: 0600
+  with_items:
+    - 'id_rsa'
+    - 'id_rsa.pub'
+
+##
+# generate baremetal and target inventory
+##
+- debug:
+    var: pxe_network
+
+- name: copy bifrost vars
+  template:
+    dest: "{{ bifrost_src_folder }}/playbooks/inventory/group_vars/{{ item }}"
+    src: "templates/{{ item }}.j2"
+  with_items:
+    - baremetal
+    - target
+
+##
+# remove old images and update image generation parameters
+##
+- name: correct bifrost image generation
+  lineinfile:
+    path: "{{ bifrost_src_folder }}/playbooks/install.yaml"
+    regexp: '^(.*) serial-console(.*)$'
+    line: '\1 enable-serial-console\2'
+    backrefs: 'yes'
+- name: Remove old image
+  file:
+    path: "/httpboot/deployment_image*"
+    state: absent
+
+##
+# Setup bifrost_inventory source
+##
+- name: set bifrost inventory
+  template:
+    src: "templates/bifrost_inventory.yml.j2"
+    dest: "{{ xci_configs_root }}/bifrost_inventory.yml"
+
+##
+# Prepare the ssh configs
+##
+- name: prepare ssh config file
+  template:
+    src: "templates/ssh_config.j2"
+    dest: "/home/{{ opnfv_user }}/.ssh/config"
+##
+# Prepare ansible inventory for nodes_* roles
+##
+- name: set ansible nodes inventory
+  template:
+    src: "templates/ansible_inventory.yml.j2"
+    dest: "{{ xci_configs_root }}/ansible_inventory.yml"

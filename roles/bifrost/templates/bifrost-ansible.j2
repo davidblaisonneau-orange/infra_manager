@@ -1,0 +1,4 @@
+#!/bin/bash
+unset ANSIBLE_STDOUT_CALLBACK
+source {{ bifrost_venv_folder }}/bin/activate
+{{ bifrost_venv_folder }}/bin/ansible-playbook $@

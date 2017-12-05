@@ -1,0 +1,32 @@
+---
+
+##
+# Get bifrost sources and install deps
+##
+
+- name: "clone bifrost {{bifrost_branch}}"
+  git:
+    repo: "{{ git_bifrost.url }}"
+    dest: "{{ bifrost_src_folder }}"
+    version: "{{ git_bifrost.branch }}"
+
+##
+# setup wrapper
+##
+- name: Set wrappers
+  become: true
+  template:
+    dest: "/usr/local/bin/{{ item }}"
+    src: "templates/{{ item }}.j2"
+    mode: 0555
+  with_items:
+    - bifrost-ansible
+    - bifrost-ironic
+
+- name: setup bifrost ansible environment
+  shell: "./scripts/env-setup.sh"
+  args:
+    chdir: "{{ bifrost_src_folder }}/"
+    creates: "{{ bifrost_venv_folder }}"
+  environment:
+    VENV: "{{ bifrost_venv_folder if bifrost_enable_venv else '' }}"

@@ -1,0 +1,62 @@
+---
+
+##
+# Generate nodes list and attached facts
+##
+
+- name: Role message
+  debug:
+    msg: "{{ msg.split('\n') }}"
+  vars:
+    msg: |
+      ************************************************************************
+      * OPNFV VM Managment role
+      * -----------------------
+      * Prepare VMs for a deploymet size: {{XCI_FLAVOR}}
+      * Pod config: {{ idf.xci.pod_name }}
+      ************************************************************************
+
+- name: set facts
+  include_tasks: facts.yml
+  tags:
+    - always
+
+##
+# Checkup require packages and get sources
+##
+
+- name: install packages and get sources
+  become: "yes"
+  include_tasks: install_pkg.yml
+  tags:
+    - install
+
+- name: get sources and install deps in venv
+  include_tasks: prepare.yml
+  tags:
+    - install
+
+##
+# Configure
+##
+- name: get sources and install deps in venv
+  include_tasks: configure.yml
+  tags:
+    - config
+
+##
+# Install bifrost
+##
+- name: get sources and install deps in venv
+  include_tasks: install.yml
+  become: true
+  tags:
+    - deploy
+
+##
+# Install bifrost
+##
+- name: get sources and install deps in venv
+  include_tasks: enroll_deploy.yml
+  tags:
+    - enroll_deploy

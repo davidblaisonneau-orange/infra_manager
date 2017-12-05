@@ -1,0 +1,53 @@
+---
+
+##
+# Check ipmi reachability
+##
+- name: check ipmi reachability
+  local_action:
+    ping {{ item['remote_management']['address'] | regex_replace('/{d}*$')}}
+  with_items: "{{ nodes }}"
+
+
+##
+# Enroll using prepared wrapper to ensure venv is used or not
+##
+- name: check no node is already installed
+  shell: >
+    . {{ bifrost_venv_folder }}/bin/activate &&
+    ironic  --json node-list 2>/dev/null | jq '. | length'
+  register: ironic_nodes
+  when: "True"
+- debug:
+    var: ironic_nodes.stdout
+- name: Enroll nodes
+  shell: >
+    . {{ bifrost_venv_folder }}/bin/activate &&
+    ansible-playbook  -i inventory/bifrost_inventory.py enroll-dynamic.yaml
+  args:
+    chdir: "{{ bifrost_src_folder }}/playbooks/"
+  environment:
+    BIFROST_INVENTORY_SOURCE: "{{ xci_configs_root }}/bifrost_inventory.yml"
+  # when: ironic_nodes.stdout == "0"
+
+##
+# Deploy using prepared wrapper to ensure venv is used or not
+##
+- name: check no node is already installed
+  shell: >
+    . {{ bifrost_venv_folder }}/bin/activate &&
+    ironic --json node-list 2>/dev/null |
+    jq '[ .[] | select(.provision_state | contains("available"))] | length'
+  register: ironic_nodes_available
+  when: "True"
+- debug:
+    var: ironic_nodes_available.stdout
+- name: Deploy bifrost
+  shell: >
+    . {{ bifrost_venv_folder }}/bin/activate &&
+    ansible-playbook -i inventory/bifrost_inventory.py deploy-dynamic.yaml
+  args:
+    chdir: "{{ bifrost_src_folder }}/playbooks/"
+  environment:
+    BIFROST_INVENTORY_SOURCE: "{{ xci_configs_root }}/bifrost_inventory.yml"
+  # when: ironic_nodes_available.stdout == "{{ nodes | length }}"
