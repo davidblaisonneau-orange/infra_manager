@@ -41,7 +41,7 @@
 - name: Mount nbd
   mount:
     path: "/tmp/nbd_{{ idf.xci.pod_name }}_{{ node.name }}"
-    src: "/dev/nbd{{ nodes_index[ node.name ] }}p1"
+    src: "/dev/nbd{{ nodes_index[ node.name ] }}"
     fstype: ext4
     state: mounted
 
