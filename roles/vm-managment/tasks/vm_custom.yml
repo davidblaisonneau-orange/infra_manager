@@ -18,6 +18,7 @@
   modprobe:
     name: nbd
     state: present
+    params: 'max_part=8'
 
 - name: ensure nbd is disconnected
   shell: "qemu-nbd --disconnect /dev/nbd{{ nodes_index[ node.name ] }}"
