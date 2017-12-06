@@ -10,7 +10,7 @@
   {% endif %}
   <bridge name='{{ attached_bridge }}' stp='on' delay='0'/>
   {% if pxe_net in net_name %}
-  <ip address='{{ net_config[pxe_net].network | ip_add(1) }}'
+  <ip address='{{ net_config[pxe_net].network | ip_add({{ idf.xci.ip_shift | int }} - 1 ) }}'
       netmask='{{ net_config[pxe_net].network | prefix2mask(net_config[pxe_net].mask) }}'>
   </ip>
   {% endif %}
