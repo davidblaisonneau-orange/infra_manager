@@ -58,10 +58,14 @@ sudo pip install netaddr
 sudo pip install -U pyopenssl
 
 #-------------------------------------------------------------------------------
-# Create the ssh keys if need
+# Local Preparation
 #-------------------------------------------------------------------------------
+step_banner "Prepare local"
 if [ ! -e "$HOME/.ssh/id_rsa" ] ; then
   ssh-keygen -f  ~/.ssh/id_rsa -t rsa -N ''
+fi
+if [[ -z $(echo $PATH | grep "$HOME/.local/bin")  ]]; then
+    export PATH="$HOME/.local/bin:$PATH"
 fi
 
 #-------------------------------------------------------------------------------
@@ -79,7 +83,8 @@ ansible-playbook ${XCI_ANSIBLE_VERBOSE} \
 #  - set local VMs according to pdf/idf/xci_hosts files
 #-------------------------------------------------------------------------------
 step_banner "Prepare servers"
-ansible-galaxy install jriguera.configdrive
+# We use sudo as required by ansible 2.3, not required in 2.4
+sudo $HOME/.local/bin/ansible-galaxy install jriguera.configdrive
 ansible-playbook ${XCI_ANSIBLE_VERBOSE} \
   -i jumphost_inventory.yml \
   opnfv-prepare-servers.yml
