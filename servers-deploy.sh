@@ -35,6 +35,9 @@ step_banner() {
   echo ""
 }
 
+# register our handler
+trap submit_bug_report ERR
+
 #-------------------------------------------------------------------------------
 # This script should not be run as root
 #-------------------------------------------------------------------------------
@@ -52,6 +55,13 @@ step_banner "Install ansible (${XCI_ANSIBLE_PIP_VERSION})"
 source scripts/install-ansible.sh
 step_banner "Install deps for ansible plugins"
 sudo pip install netaddr
+
+#-------------------------------------------------------------------------------
+# Create the ssh keys if need
+#-------------------------------------------------------------------------------
+if [ ! -f ~/.ssh/id_rsa ]; then
+  ssh-keygen -f  ~/.ssh/id_rsa -t rsa -N ''
+fi
 
 #-------------------------------------------------------------------------------
 # Prepare jumphost
