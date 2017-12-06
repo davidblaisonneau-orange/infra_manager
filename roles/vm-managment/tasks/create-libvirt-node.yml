@@ -88,6 +88,8 @@
     --port {{ vbmc_port }}
     --username {{ vm.remote_management.user |default('admin')}}
     --password {{ vm.remote_management.password |default('password')}}
+    --address
+      {{ pxe_network | ip_add( idf.xci.ip_shift | int - 1 ) }}
   when: true
 - name: start virtualbmc
   command: vbmc start {{ prefix }}{{ vm.name }}
