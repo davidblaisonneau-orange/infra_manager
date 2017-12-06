@@ -7,7 +7,9 @@
     state: running
 
 - name: wait for TCP 22 reachability
-  shell: "ssh {{xci_hosts_user}}@{{ ip }} python --version"
+  shell: >
+    ssh -o StrictHostKeyChecking=no
+    {{xci_hosts_user}}@{{ ip }} python --version
   vars:
     ip: "{{ pxe_network| ip_add( idf.xci.ip_shift + nodes_index[node.name]) }}"
   with_nodes: "{{ xci_hosts }}"
@@ -20,10 +22,10 @@
     - skip_ansible_lint
 
 - name: update ssh known hosts
-  shell:
-    "ssh-keygen -f \"{{ known_hosts_file }}\" -R {{ ip }};\
+  shell: >
+    ssh-keygen -f \"{{ known_hosts_file }}\" -R {{ ip }};\
     ssh-keyscan -t rsa {{ ip }} >> {{ known_hosts_file }};\
-    ssh {{xci_hosts_user}}@{{ ip }} hostname"
+    ssh {{xci_hosts_user}}@{{ ip }} hostname
   vars:
     known_hosts_file: "{{ lookup('env','HOME') }}/.ssh/known_hosts"
     ip: "{{ pxe_network| ip_add( idf.xci.ip_shift + nodes_index[node.name]) }}"
