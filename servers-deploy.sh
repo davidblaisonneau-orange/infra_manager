@@ -55,7 +55,7 @@ step_banner "Install ansible (${XCI_ANSIBLE_PIP_VERSION})"
 source scripts/install-ansible.sh
 step_banner "Install deps for ansible plugins"
 sudo pip install netaddr
-sudo pip uninstall pyopenssl || sudo pip install pyopenssl
+sudo pip install -U pyopenssl
 
 #-------------------------------------------------------------------------------
 # Create the ssh keys if need
