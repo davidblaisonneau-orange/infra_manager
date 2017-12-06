@@ -59,7 +59,7 @@ sudo pip install netaddr
 #-------------------------------------------------------------------------------
 # Create the ssh keys if need
 #-------------------------------------------------------------------------------
-if [ ! -f ~/.ssh/id_rsa ]; then
+if [ ! -f "~/.ssh/id_rsa" ]; then
   ssh-keygen -f  ~/.ssh/id_rsa -t rsa -N ''
 fi
 
