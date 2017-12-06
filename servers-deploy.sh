@@ -52,10 +52,10 @@ fi
 # Install deps
 #-------------------------------------------------------------------------------
 step_banner "Install ansible (${XCI_ANSIBLE_PIP_VERSION})"
+rm -rf $HOME/.local/lib/python2.7/
 source scripts/install-ansible.sh
 step_banner "Install deps for ansible plugins"
 sudo pip install netaddr
-sudo pip install -U pyopenssl
 
 #-------------------------------------------------------------------------------
 # Local Preparation
