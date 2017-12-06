@@ -84,7 +84,7 @@ ansible-playbook ${XCI_ANSIBLE_VERBOSE} \
 #-------------------------------------------------------------------------------
 step_banner "Prepare servers"
 # We use sudo as required by ansible 2.3, not required in 2.4
-sudo $HOME/.local/bin/ansible-galaxy install jriguera.configdrive
+ansible-galaxy install jriguera.configdrive
 ansible-playbook ${XCI_ANSIBLE_VERBOSE} \
   -i jumphost_inventory.yml \
   opnfv-prepare-servers.yml
