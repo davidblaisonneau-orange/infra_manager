@@ -7,14 +7,14 @@
     state: running
 
 - name: wait for TCP 22 reachability
-  shell: "nc -n -z {{ ip }} 22"
+  shell: "ssh {{xci_hosts_user}}@{{ ip }} python --version"
   vars:
     ip: "{{ pxe_network| ip_add( idf.xci.ip_shift + nodes_index[node.name]) }}"
   with_nodes: "{{ xci_hosts }}"
   register: ping_ssh
   until: ping_ssh.rc == 0
-  retries: 10
-  delay: 10
+  retries: 24
+  delay: 5
   when: "True"
   tags:
     - skip_ansible_lint
