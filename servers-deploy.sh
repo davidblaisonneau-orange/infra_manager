@@ -94,7 +94,6 @@ ansible-playbook ${XCI_ANSIBLE_VERBOSE} \
 #-------------------------------------------------------------------------------
 step_banner "Prepare and run Bifrost"
 export POD_NAME=$(grep 'pod_name:' var/idf.yml  | awk '{ print $2}')
-sleep 10  # to avoid a strange ansible ssh connection error
 ansible-playbook ${XCI_ANSIBLE_VERBOSE} \
   -i ${XCI_PATH}/${POD_NAME}/etc/opnfv_hosts_inventory.yml \
   opnfv-deploy-os.yml
