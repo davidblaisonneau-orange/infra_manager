@@ -29,6 +29,6 @@
   vars:
     known_hosts_file: "{{ lookup('env','HOME') }}/.ssh/known_hosts"
     ip: "{{ pxe_network| ip_add( idf.xci.ip_shift + nodes_index[node.name]) }}"
-  with_nodes: "{{ xci_hosts }}"
+  with_item: "{{ xci_hosts }}"
   tags:
     - skip_ansible_lint

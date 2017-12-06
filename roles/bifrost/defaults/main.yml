@@ -26,6 +26,9 @@ git_bifrost:
 # VENV Vars
 bifrost_enable_venv: true
 
+# XCI xci_root
+xci_root: /opt/xci
+
 # Dib user
 dib:
   dev_user:

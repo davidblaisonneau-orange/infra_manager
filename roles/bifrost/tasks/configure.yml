@@ -64,3 +64,14 @@
   template:
     src: "templates/ansible_inventory.yml.j2"
     dest: "{{ xci_configs_root }}/ansible_inventory.yml"
+
+##
+# Fetch inventories
+##
+- name: fetch inventories
+  fetch:
+    src: "{{ xci_configs_root }}/{{ item }}"
+    dest: "{{ xci_root}}/{{ idf.xci.pod_name }}/etc/{{ item }}"
+  with_items:
+    - bifrost_inventory.yml
+    - ansible_inventory.yml
