@@ -23,8 +23,8 @@
 
 - name: update ssh known hosts
   shell: >
-    ssh-keygen -f \"{{ known_hosts_file }}\" -R {{ ip }};\
-    ssh-keyscan -t rsa {{ ip }} >> {{ known_hosts_file }};\
+    ssh-keygen -f \"{{ known_hosts_file }}\" -R {{ ip }};
+    ssh-keyscan -t rsa {{ ip }} >> {{ known_hosts_file }};
     ssh {{xci_hosts_user}}@{{ ip }} hostname
   vars:
     known_hosts_file: "{{ lookup('env','HOME') }}/.ssh/known_hosts"
