@@ -11,12 +11,8 @@
 ##
 # Get variables from env
 ##
-XCI_FLAVOR: >
-  {{ lookup('env','XCI_FLAVOR') if lookup('env','XCI_FLAVOR') != ''
-                                else 'mini') }}
-OS_FAMILY: >
-  {{ lookup('env','OS_FAMILY') if lookup('env','OS_FAMILY') != ''
-                               else 'debian' }}
+XCI_FLAVOR: "{{ lookup('env','XCI_FLAVOR') if lookup('env','XCI_FLAVOR') != '' else 'mini' }}"
+OS_FAMILY: "{{ lookup('env','OS_FAMILY') if lookup('env','OS_FAMILY') != '' else 'debian' }}"
 
 ##
 # Add for bifrost new version
