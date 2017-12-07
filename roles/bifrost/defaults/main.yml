@@ -39,7 +39,7 @@ dib:
     release: xenial
   extra_elements: baremetal devuser growroot openssh-server
   packages:
-    vlan,vim,less,bridge-utils,language-pack-en,iputils-ping,rsyslog,curl,byobu
+    vlan,vim,less,bridge-utils,language-pack-en,iputils-ping,curl,python
 
 # Bifrost net interface
 bifrost:
