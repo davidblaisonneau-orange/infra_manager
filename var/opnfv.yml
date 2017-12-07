@@ -11,15 +11,16 @@
 ##
 # Get variables from env
 ##
-XCI_FLAVOR: "{{ lookup('env','XCI_FLAVOR') if lookup('env','XCI_FLAVOR') != '' \
-                else 'mini') }}"
-OS_FAMILY: "{{ lookup('env','OS_FAMILY') if lookup('env','OS_FAMILY') != '' \
-               else 'debian' }}"
+XCI_FLAVOR: >
+  {{ lookup('env','XCI_FLAVOR') if lookup('env','XCI_FLAVOR') != ''
+                                else 'mini') }}
+OS_FAMILY: >
+  {{ lookup('env','OS_FAMILY') if lookup('env','OS_FAMILY') != ''
+                               else 'debian' }}
 
 ##
 # Add for bifrost new version
 ##
-
 
 # Set xci root (for config, src, logs, venv, bin)
 xci_root: /opt/xci
@@ -43,7 +44,7 @@ deploy_definitions:
     compute: 2
 
 # For XCI_host we create the disk from cloud a image this is the list
-# of cloud image we can use. The choice will be done with
+# of cloud images we can use.
 xci_hosts_images:
   debian:
     base_url: http://cloud-images.ubuntu.com/releases/16.04/release/
@@ -51,3 +52,15 @@ xci_hosts_images:
     user: ubuntu
     type: debian
     default_net: ens3
+  suse:
+    base_url:
+    filename:
+    user:
+    type:
+    default_net:
+  centos:
+    base_url:
+    filename:
+    user:
+    type:
+    default_net:
