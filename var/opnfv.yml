@@ -13,15 +13,15 @@
 ##
 XCI_FLAVOR: "{{ lookup('env','XCI_FLAVOR') | default('mini') }}"
 
-##
-# Set xci root (for config, src, logs, venv, bin)
-##
-xci_root: /opt/xci
 
 ##
 # Add for bifrost new version
 ##
+
 XCI_OS_FAMILY: "{{ lookup('env','XCI_OS_FAMILY') | default('debian') }}"
+
+# Set xci root (for config, src, logs, venv, bin)
+xci_root: /opt/xci
 
 opnfv_user: opnfv
 

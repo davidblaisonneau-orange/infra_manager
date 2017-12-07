@@ -38,7 +38,7 @@ create_local_ssh_key
 #-------------------------------------------------------------------------------
 step_banner "Prepare jumphost"
 ansible-playbook ${XCI_ANSIBLE_VERBOSE} \
-  -i jumphost_inventory.yml \
+  -i ${XCI_RUN_ROOT}/jumphost_inventory.yml \
   ${XCI_RUN_ROOT}/opnfv-prepare-jumphost.yml
 
 #-------------------------------------------------------------------------------
@@ -49,7 +49,7 @@ step_banner "Prepare servers"
 # We use sudo as required by ansible 2.3, not required in 2.4
 ansible-galaxy install jriguera.configdrive
 ansible-playbook ${XCI_ANSIBLE_VERBOSE} \
-  -i jumphost_inventory.yml \
+  -i ${XCI_RUN_ROOT}/jumphost_inventory.yml \
   ${XCI_RUN_ROOT}/opnfv-prepare-servers.yml
 
 #-------------------------------------------------------------------------------
