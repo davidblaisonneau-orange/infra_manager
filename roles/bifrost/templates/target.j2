@@ -26,9 +26,9 @@ inventory_dns: true
 inventory_dhcp: false
 inspect_nodes: false
 
-dib_os_release: "{{ dib.os.release }}"
-dib_os_element: "{{ dib.os.element }}"
-dib_packages: "{{ dib.packages }}"
+dib_os_release: "{{ dib.os[OS_FAMILY].release }}"
+dib_os_element: "{{ dib.os[OS_FAMILY].element }}"
+dib_packages: "{{ dib.packages[OS_FAMILY] }}"
 extra_dib_elements: {{ dib.extra_elements }}
 dib_init_element: simple-init
 dib_dev_user_username: {{ dib.dev_user.username }}

@@ -35,11 +35,23 @@ dib:
     username: opnfv
     password: opnfv2017
   os:
-    element: ubuntu-minimal
-    release: xenial
+    debian:
+      element: ubuntu-minimal
+      release: xenial
+    redhat:
+      element: centos-minimal
+      release: 7
+    suse:
+      element: opensuse-minimal
+      release: 42.3
   extra_elements: baremetal devuser growroot openssh-server
   packages:
-    vlan,vim,less,bridge-utils,language-pack-en,iputils-ping,curl,python
+    shared:
+      vlan,vim,less,bridge-utils,language-pack-en,iputils-ping,curl,python
+    debian: "{{ dib.packages.shared }}"
+    suse: "{{ dib.packages.shared }}"
+    redhat: "{{ dib.packages.shared }}"
+
 
 # Bifrost net interface
 bifrost:
