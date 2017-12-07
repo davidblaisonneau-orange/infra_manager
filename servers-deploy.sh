@@ -56,6 +56,7 @@ rm -rf $HOME/.local/lib/python2.7/
 source scripts/install-ansible.sh
 step_banner "Install deps for ansible plugins"
 sudo pip install netaddr
+yes|sudo pip uninstall pyopenssl||true
 
 #-------------------------------------------------------------------------------
 # Local Preparation
