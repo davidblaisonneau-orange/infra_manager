@@ -108,3 +108,5 @@ ansible-playbook ${XCI_ANSIBLE_VERBOSE} \
 # Job done
 #-------------------------------------------------------------------------------
 step_banner "Servers deployed"
+ansible all -m wait_for_connection \
+  -i ${XCI_PATH}/${POD_NAME}/etc/ansible_inventory.yml
