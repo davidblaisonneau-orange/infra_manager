@@ -6,7 +6,7 @@
     name: "{{ idf.xci.pod_name }}_{{ node.name }}"
     state: running
 
-- name: wait for TCP 22 reachability
+- name: wait ssh to be reachable
   shell: >
     ssh -o StrictHostKeyChecking=no
     {{xci_hosts_user}}@{{ ip }} python --version
@@ -29,6 +29,5 @@
   vars:
     known_hosts_file: "{{ lookup('env','HOME') }}/.ssh/known_hosts"
     ip: "{{ pxe_network| ip_add( idf.xci.ip_shift + nodes_index[node.name]) }}"
-  with_item: "{{ xci_hosts }}"
   tags:
     - skip_ansible_lint
