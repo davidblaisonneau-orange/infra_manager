@@ -3,9 +3,9 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
-XCI_RUN_ROOT=$(dirname $(readlink -f $0))
-source $XCI_RUN_ROOT/scripts/xci-defaults.sh
-source $XCI_RUN_ROOT/scripts/xci-rc.sh
+XCI_RUN_ROOT=$(dirname $(readlink -f ${0}))
+source ${XCI_RUN_ROOT}/scripts/xci-defaults.sh
+source ${XCI_RUN_ROOT}/scripts/xci-rc.sh
 
 # register our handler
 trap submit_bug_report ERR
@@ -19,8 +19,8 @@ no_root_needed
 # Install deps
 #-------------------------------------------------------------------------------
 step_banner "Install ansible (${XCI_ANSIBLE_PIP_VERSION})"
-rm -rf $HOME/.local/lib/python2.7/
-source $XCI_RUN_ROOT/scripts/install-ansible.sh
+rm -rf ${HOME}/.local/lib/python2.7/
+source ${XCI_RUN_ROOT}/scripts/install-ansible.sh
 step_banner "Install deps for ansible plugins"
 sudo pip install netaddr
 yes|sudo pip uninstall pyopenssl||true
@@ -39,7 +39,7 @@ create_local_ssh_key
 step_banner "Prepare jumphost"
 ansible-playbook ${XCI_ANSIBLE_VERBOSE} \
   -i jumphost_inventory.yml \
-  $XCI_RUN_ROOT/opnfv-prepare-jumphost.yml
+  ${XCI_RUN_ROOT}/opnfv-prepare-jumphost.yml
 
 #-------------------------------------------------------------------------------
 # Prepare servers
@@ -50,7 +50,7 @@ step_banner "Prepare servers"
 ansible-galaxy install jriguera.configdrive
 ansible-playbook ${XCI_ANSIBLE_VERBOSE} \
   -i jumphost_inventory.yml \
-  $XCI_RUN_ROOT/opnfv-prepare-servers.yml
+  ${XCI_RUN_ROOT}/opnfv-prepare-servers.yml
 
 #-------------------------------------------------------------------------------
 # Prepare and install Bifrost (using official doc way)
@@ -63,7 +63,7 @@ ansible-playbook ${XCI_ANSIBLE_VERBOSE} \
 step_banner "Prepare and run Bifrost"
 ansible-playbook ${XCI_ANSIBLE_VERBOSE} \
   -i ${XCI_PATH}/${POD_NAME}/etc/opnfv_hosts_inventory.yml \
-  $XCI_RUN_ROOT/opnfv-deploy-os.yml
+  ${XCI_RUN_ROOT}/opnfv-deploy-os.yml
 
 #-------------------------------------------------------------------------------
 # Wait for servers

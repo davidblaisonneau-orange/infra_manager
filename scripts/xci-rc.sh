@@ -31,7 +31,7 @@ step_banner() {
   echo ""
   echo "====================================================================="
   date
-  echo "$1"
+  echo "${1}"
   echo "====================================================================="
   echo ""
 }
@@ -52,7 +52,7 @@ no_root_needed() {
 # Create a local ssh key if not present
 ##
 create_local_ssh_key() {
-  if [ ! -e "$HOME/.ssh/id_rsa" ] ; then
-    ssh-keygen -f  $HOME/.ssh/id_rsa -t rsa -N ''
+  if [ ! -e "${HOME}/.ssh/id_rsa" ] ; then
+    ssh-keygen -f  ${HOME}/.ssh/id_rsa -t rsa -N ''
   fi
 }

@@ -12,11 +12,16 @@
 # Get variables from env
 ##
 XCI_FLAVOR: "{{ lookup('env','XCI_FLAVOR') | default('mini') }}"
+
+##
+# Set xci root (for config, src, logs, venv, bin)
+##
 xci_root: /opt/xci
 
 ##
 # Add for bifrost new version
 ##
+XCI_OS_FAMILY: "{{ lookup('env','XCI_OS_FAMILY') | default('debian') }}"
 
 opnfv_user: opnfv
 
@@ -35,3 +40,13 @@ deploy_definitions:
     opnfv_host: 1
     controller: 3
     compute: 2
+
+# For XCI_host we create the disk from cloud a image this is the list
+# of cloud image we can use. The choice will be done with
+xci_hosts_images:
+  debian:
+    base_url: http://cloud-images.ubuntu.com/releases/16.04/release/
+    filename: ubuntu-16.04-server-cloudimg-amd64-disk1.img
+    user: ubuntu
+    type: debian
+    default_net: ens3

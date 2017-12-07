@@ -14,3 +14,4 @@
       vars:
         deploy_size: "{{ XCI_FLAVOR }}"
         xci_root: "/opt/xci/{{ idf.xci.pod_name }}"
+        xci_hosts_image: "{{ xci_hosts_images[XCI_OS_FAMILY]}}"
